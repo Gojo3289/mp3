@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP3 Upload and Download</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        form {
+            margin: 20px 0;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+        }
+        input[type="button"] {
+            background: #fff;
+            color: #ff7e5f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        input[type="button"]:hover {
+            background: #ff7e5f;
+            color: #fff;
+        }
+        .file-list {
+            margin-top: 20px;
+        }
+        .file-item {
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        audio {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload and Play MP3 Files</h1>
+        <form id="uploadForm">
+            <input type="file" id="fileInput" accept="audio/mp3" multiple>
+            <input type="button" value="Upload" onclick="handleFiles()">
+        </form>
+        <div id="fileList" class="file-list"></div>
+    </div>
+    <script>
+        function handleFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const file = fileInput.files[i];
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item');
+
+                const fileLink = document.createElement('a');
+                fileLink.href = URL.createObjectURL(file);
+                fileLink.textContent = file.name;
+                fileLink.download = file.name;
+
+                const audioPlayer = document.createElement('audio');
+                audioPlayer.controls = true;
+                audioPlayer.src = URL.createObjectURL(file);
+
+                fileItem.appendChild(fileLink);
+                fileItem.appendChild(audioPlayer);
+                fileList.appendChild(fileItem);
+            }
+        }
+    </script>
+</body>
+</html>
